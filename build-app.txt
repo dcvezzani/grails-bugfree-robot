@@ -1,0 +1,29 @@
+## create databases for development and test environments
+
+# log in as superuser
+psql -d postgres -U dvezzani
+
+# create user and database
+create user myp_admin with password 'pass13!#';
+CREATE DATABASE myp_development OWNER myp_admin;
+GRANT ALL ON DATABASE myp_development TO myp_admin; 
+
+# create test user and test database that can run with rspec tests
+CREATE DATABASE myp_test OWNER myp_admin;
+GRANT ALL ON DATABASE myp_test TO myp_admin; 
+
+
+## create convenience scripts for starting server and opening homepage
+
+# open local web server home page in browser
+echo -e "#"'!'"/bin/bash\n\nopen http://localhost:4672/my-project/" > open.sh
+chmod 755 open.sh
+
+# start the web server
+echo -e "#"'!'"/bin/bash\n\ngrails -Dserver.port=4672 run-app" > start.sh
+chmod 755 start.sh
+
+
+## open all *.groovy files under the "conf" directory
+
+find . -name "*.groovy" ! -path "*target*" -path "*conf*" | xargs mvim -p
