@@ -2,3 +2,4 @@ target
 .DS_Store
 .*.sw*
 .sw*
+DataSource.groovy
