@@ -1,0 +1,5 @@
+== Learning Grails from a Rails perspective
+
+I love Ruby and I am quite fond of Rails.  I am learning that Grails is a more distant cousin of Rails than I originally thought.  I am struggling to understand what seems to be some of the most simplest of concepts,... like creating the equivalent of migrations, applying them and running my web app successfully.
+
+I plan on documenting a thing or two regarding Grails and how to best work with it.
