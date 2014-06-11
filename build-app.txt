@@ -13,6 +13,40 @@ CREATE DATABASE myp_test OWNER myp_admin;
 GRANT ALL ON DATABASE myp_test TO myp_admin; 
 
 
+
+
+# install Derby to local location
+export DERBY_HOME="/Users/dvezzani/java-app/db-derby-10.10.2.0-bin"
+
+# start server
+java -cp $DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbyclient.jar:$DERBY_HOME/lib/derbynet.jar:$DERBY_HOME/lib/derbyrun.jar:$DERBY_HOME/lib/derbytools.jar -jar $DERBY_HOME/lib/derbyrun.jar server start
+
+
+## create database
+
+# console method
+$DERBY_HOME/bin/ij
+connect 'jdbc:derby://localhost:1527/my_project;create=true';
+
+$DERBY_HOME/bin/ij 
+connect 'jdbc:derby://localhost:1527/my_project';
+
+## terminal method
+java -cp $DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbyclient.jar:$DERBY_HOME/lib/derbynet.jar:$DERBY_HOME/lib/derbyrun.jar:$DERBY_HOME/lib/derbytools.jar \
+  -Dij.database='jdbc:derby://localhost:1527/my_project;create=true' \
+  -jar $DERBY_HOME/lib/derbyrun.jar ij
+
+java -cp $DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbyclient.jar:$DERBY_HOME/lib/derbynet.jar:$DERBY_HOME/lib/derbyrun.jar:$DERBY_HOME/lib/derbytools.jar \
+  -Dij.database='jdbc:derby://localhost:1527/my_project' \
+  -jar $DERBY_HOME/lib/derbyrun.jar ij;
+exit;
+
+java -cp $DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbyclient.jar:$DERBY_HOME/lib/derbynet.jar:$DERBY_HOME/lib/derbyrun.jar:$DERBY_HOME/lib/derbytools.jar \
+  -Dij.database='jdbc:derby://localhost:1527/my_project' \
+  org.apache.derby.tools.ij
+exit;
+
+
 ## create convenience scripts for starting server and opening homepage
 
 # open local web server home page in browser
@@ -27,3 +61,14 @@ chmod 755 start.sh
 ## open all *.groovy files under the "conf" directory
 
 find . -name "*.groovy" ! -path "*target*" -path "*conf*" | xargs mvim -p
+
+
+## create a Domain class for Book
+
+grails create-domain-class org.example.Book
+
+
+## check Derby db for data
+
+select id, version, SUBSTR(author, 1, 15) as author, SUBSTR(title, 1, 15) as title from BOOK;
+
